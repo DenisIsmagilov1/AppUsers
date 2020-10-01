@@ -1,9 +1,7 @@
-import React, {useState} from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from "redux"
-import { newUserAdd } from '../actions/index'
+import React, { useState } from 'react'
+import store from '../stores/UserStore'
 
-const Form = (props) => {
+const Form = () => {
 
     const [newUser, setNewUser] = useState({})
 
@@ -12,7 +10,7 @@ const Form = (props) => {
             ...newUser,
             name: e.target.value
         })
-        
+
     }
     const HandlerOnChangeAge = (e) => {
         setNewUser({
@@ -28,8 +26,8 @@ const Form = (props) => {
     }
 
     const HandlerAdd = (e) => {
-       e.preventDefault()
-        props.newUserAdd(newUser)
+        e.preventDefault()
+        store.addUser(newUser)
         setNewUser({})
 
     }
@@ -38,48 +36,34 @@ const Form = (props) => {
             <label>
                 Name<br />
                 <input
-                type="text" 
-                value={newUser.name || ''} 
-                onChange={HandlerOnChangeName} 
-                required
+                    type="text"
+                    value={newUser.name || ''}
+                    onChange={HandlerOnChangeName}
+                    required
                 />
             </label>
-           <label>
-               Age<br />
-               <input 
-               type="number" 
-               value={newUser.age  || ''} 
-               onChange={HandlerOnChangeAge} 
-               required
-               />
-           </label>
-           <label>
-               City<br />
-               <input 
-               type="text" 
-               value={newUser.city  || ''} 
-               onChange={HandlerOnChangeCity}
-               required
-               />
-           </label>
-            
+            <label>
+                Age<br />
+                <input
+                    type="number"
+                    value={newUser.age || ''}
+                    onChange={HandlerOnChangeAge}
+                    required
+                />
+            </label>
+            <label>
+                City<br />
+                <input
+                    type="text"
+                    value={newUser.city || ''}
+                    onChange={HandlerOnChangeCity}
+                    required
+                />
+            </label>
+
             <button type="submit" >Добавить</button>
         </form>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        users: state.item
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        newUserAdd: bindActionCreators(newUserAdd, dispatch)
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form)
+export default Form
